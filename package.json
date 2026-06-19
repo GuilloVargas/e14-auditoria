@@ -7,7 +7,7 @@
     "start": "node server.mjs",
     "desktop": "node electron/run-desktop.cjs",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder",
+    "dist": "electron-builder --publish never",
     "inventory": "node scripts/e14-audit.mjs inventory",
     "download": "node scripts/e14-audit.mjs download",
     "check": "node --check server.mjs && node --check scripts/e14-audit.mjs && node --check electron/main.mjs && node --check electron/preload.cjs && node --check electron/run-desktop.cjs && node --check public/app.js"
