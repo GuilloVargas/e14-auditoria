@@ -49,19 +49,27 @@
       "icon": "build/icon.icns",
       "target": [
         "dmg"
-      ]
+      ],
+      "artifactName": "Auditoria.E14-mac.dmg"
     },
     "win": {
       "icon": "build/icon.ico",
       "target": [
         "nsis"
-      ]
+      ],
+      "artifactName": "Auditoria.E14.Setup.exe"
     },
     "linux": {
       "icon": "build/icon.png",
       "target": [
-        "AppImage",
-        "deb"
+        {
+          "target": "AppImage",
+          "artifactName": "Auditoria.E14.AppImage"
+        },
+        {
+          "target": "deb",
+          "artifactName": "audit-e-14_amd64.deb"
+        }
       ],
       "category": "Utility"
     }
