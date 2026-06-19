@@ -1,0 +1,61 @@
+{
+  "name": "audit-e-14",
+  "version": "1.0.0",
+  "description": "App local para inventariar, descargar y auditar metadatos de formularios E14 publicados por la Registraduria.",
+  "main": "electron/main.mjs",
+  "scripts": {
+    "start": "node server.mjs",
+    "desktop": "node electron/run-desktop.cjs",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "inventory": "node scripts/e14-audit.mjs inventory",
+    "download": "node scripts/e14-audit.mjs download",
+    "check": "node --check server.mjs && node --check scripts/e14-audit.mjs && node --check electron/main.mjs && node --check electron/preload.cjs && node --check electron/run-desktop.cjs && node --check public/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "pdf-lib": "1.17.1"
+  },
+  "devDependencies": {
+    "electron": "37.10.3",
+    "electron-builder": "26.15.3"
+  },
+  "build": {
+    "appId": "co.local.audit-e14",
+    "productName": "Auditoria E14",
+    "files": [
+      "electron/**",
+      "public/**",
+      "scripts/**",
+      "server.mjs",
+      "package.json",
+      "!output/**",
+      "!.playwright-cli/**",
+      "!.playwright-mcp/**",
+      "!playwright-report/**",
+      "!test-results/**",
+      "!*.png",
+      "!*.log"
+    ],
+    "mac": {
+      "target": [
+        "dmg"
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Utility"
+    }
+  }
+}

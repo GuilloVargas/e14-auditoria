@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Auditoria E14</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+
+  <body>
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="mark">E14</div>
+
+        <div>
+          <h1>Auditoria E14</h1>
+          <p>Presidente 2026</p>
+        </div>
+      </div>
+
+      <form id="filters" class="filters">
+        <label>
+          Departamento
+          <select id="department"></select>
+        </label>
+
+        <label>
+          Municipio
+          <select id="municipality"></select>
+        </label>
+
+        <label>
+          Zona
+          <select id="zone"></select>
+        </label>
+
+        <label>
+          Puesto
+          <select id="stand"></select>
+        </label>
+
+        <label>
+          Corporacion
+          <select id="corporation"></select>
+        </label>
+      </form>
+
+      <div class="actions">
+        <button id="inventoryBtn" class="primary" type="button">
+          Cargar base de datos
+        </button>
+
+        <button id="downloadBtn" type="button">Descargar y auditar</button>
+
+        <button id="configBtn" type="button">Configuracion</button>
+
+        <button id="cancelBtn" class="danger hidden" type="button">
+          Cancelar descarga
+        </button>
+      </div>
+    </aside>
+
+    <main class="workspace">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Registraduria Nacional del Estado Civil</p>
+          <h2>Control de formularios publicados</h2>
+        </div>
+
+        <div id="status" class="status">Inicializando</div>
+      </header>
+
+      <section class="metrics" aria-label="Resumen">
+        <div>
+          <span>Total</span>
+          <strong id="metricTotal">0</strong>
+        </div>
+
+        <div>
+          <span>Publicados</span>
+          <strong id="metricPublished">0</strong>
+        </div>
+
+        <div>
+          <span>Pendientes</span>
+          <strong id="metricPending">0</strong>
+        </div>
+
+        <div>
+          <span>Puestos</span>
+          <strong id="metricStands">0</strong>
+        </div>
+      </section>
+
+      <section class="progress-wrap">
+        <div class="progress-meta">
+          <span id="progressLabel">Sin descarga activa</span>
+          <span id="progressCount">0 / 0</span>
+        </div>
+
+        <div class="progress">
+          <div id="progressBar"></div>
+        </div>
+      </section>
+
+      <section class="content">
+        <div class="table-panel">
+          <div class="panel-head">
+            <div>
+              <h3>Inventario</h3>
+              <p id="outputHint">Sin archivo generado</p>
+            </div>
+            <input
+              id="search"
+              type="search"
+              placeholder="Buscar en cualquier columna"
+            />
+          </div>
+
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Ubicacion</th>
+                  <th>Mesa</th>
+                  <th>Estado</th>
+                  <th>Auditoria</th>
+                  <th>Accion</th>
+                </tr>
+              </thead>
+              <tbody id="rows"></tbody>
+            </table>
+          </div>
+
+          <div class="pagination" aria-label="Paginación del inventario">
+            <div id="pageInfo">0 registros</div>
+
+            <div class="pagination-controls">
+              <label class="page-size">
+                Filas
+                <select id="pageSize">
+                  <option value="25">25</option>
+                  <option value="50" selected>50</option>
+                  <option value="100">100</option>
+                  <option value="250">250</option>
+                </select>
+              </label>
+
+              <button id="firstPage" type="button" aria-label="Primera página">
+                «
+              </button>
+              <button id="prevPage" type="button" aria-label="Página anterior">
+                ‹
+              </button>
+              <span id="pageNumber">1 / 1</span>
+              <button id="nextPage" type="button" aria-label="Página siguiente">
+                ›
+              </button>
+              <button id="lastPage" type="button" aria-label="Última página">
+                »
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <aside class="detail-panel">
+          <div class="panel-head">
+            <div>
+              <h3>Detalle</h3>
+              <p id="detailSubtitle">Selecciona un registro</p>
+            </div>
+          </div>
+
+          <dl id="detailList"></dl>
+          <div class="detail-actions">
+            <a
+              id="openPdf"
+              class="button-link disabled"
+              href="#"
+              target="_blank"
+              rel="noreferrer"
+              >Abrir PDF</a
+            >
+            <a
+              id="openLocal"
+              class="button-link disabled"
+              href="#"
+              target="_blank"
+              rel="noreferrer"
+              >Archivo local</a
+            >
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <dialog id="configDialog" class="config-dialog">
+      <form id="configForm" method="dialog" class="config-form">
+        <div class="config-head">
+          <div>
+            <h3>Configuracion</h3>
+            <p>Fuente de datos E14</p>
+          </div>
+          <button
+            id="closeConfigBtn"
+            class="icon-button"
+            type="button"
+            aria-label="Cerrar"
+          >
+            ×
+          </button>
+        </div>
+
+        <label>
+          URL base
+          <input id="baseUrl" type="url" required />
+        </label>
+
+        <div class="grid-two">
+          <label>
+            Limite
+            <input id="limit" type="number" min="0" step="1" value="0" />
+
+            <small class="field-help">
+              0 procesa todo lo filtrado. Usa 3 para pruebas rápidas o un número
+              fijo para limitar registros.
+            </small>
+          </label>
+
+          <label>
+            Hilos
+            <select id="concurrency">
+              <option value="1">1 - lento, baja carga</option>
+              <option value="4" selected>4 - recomendado</option>
+              <option value="6">6 - lotes grandes</option>
+              <option value="12">12 - agresivo</option>
+            </select>
+
+            <small class="field-help">
+              PDFs en paralelo. No son threads del sistema; es concurrencia de
+              red en Node.js.
+            </small>
+          </label>
+        </div>
+
+        <label>
+          Carpeta salida
+          <div class="output-control">
+            <input id="out" type="text" value="output/e14" />
+
+            <button id="chooseOutBtn" class="desktop-only hidden" type="button">
+              Elegir
+            </button>
+          </div>
+        </label>
+
+        <div class="switches">
+          <label class="check"
+            ><input id="skipExisting" type="checkbox" checked /> Omitir
+            existentes</label
+          >
+          <label class="check"
+            ><input id="metadata" type="checkbox" checked /> Metadatos</label
+          >
+        </div>
+
+        <div class="config-actions">
+          <button id="resetBaseUrlBtn" type="button">Restaurar</button>
+          <button id="saveConfigBtn" class="primary" type="submit">
+            Guardar
+          </button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>

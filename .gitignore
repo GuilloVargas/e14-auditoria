@@ -1,0 +1,18 @@
+node_modules/
+.DS_Store
+
+# Runtime outputs and downloaded E14 artifacts
+output/
+dist/
+*.log
+
+# Local browser/test artifacts
+.playwright-cli/
+.playwright-mcp/
+playwright-report/
+test-results/
+*.png
+
+# Environment files
+.env
+.env.*
