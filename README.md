@@ -18,13 +18,23 @@ Los instaladores y ejecutables son generados automáticamente por el pipeline de
 
 | Sistema Operativo                                                                                                                       | Formato     | Enlace de Descarga                                                                                                        |
 | :-------------------------------------------------------------------------------------------------------------------------------------- | :---------- | :------------------------------------------------------------------------------------------------------------------------ |
-| <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apple/apple-original.svg" width="32" height="32" /> **macOS**              | `.dmg`      | [Descargar para macOS](https://github.com/Caxvalencia/audit-e14/releases/download/v1.0.0/Auditoria.E14-1.0.0-arm64.dmg)         |
+| <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apple/apple-original.svg" width="32" height="32" /> **macOS**              | `.dmg`      | [Descargar para macOS](https://github.com/Caxvalencia/audit-e14/releases/download/v1.0.0/Auditoria.E14-1.0.0-arm64.dmg)   |
 | <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/windows8/windows8-original.svg" width="32" height="32" /> **Windows**      | `.exe`      | [Descargar para Windows](https://github.com/Caxvalencia/audit-e14/releases/download/v1.0.0/Auditoria.E14.Setup.1.0.0.exe) |
 | <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" width="32" height="32" /> **Linux (AppImage)**   | `.AppImage` | [Descargar AppImage](https://github.com/Caxvalencia/audit-e14/releases/download/v1.0.0/Auditoria.E14-1.0.0.AppImage)      |
-| <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" width="32" height="32" /> **Linux (Deb/Ubuntu)** | `.deb`      | [Descargar .deb](https://github.com/Caxvalencia/audit-e14/releases/download/v1.0.0/audit-e-14_1.0.0_amd64.deb)         |
+| <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" width="32" height="32" /> **Linux (Deb/Ubuntu)** | `.deb`      | [Descargar .deb](https://github.com/Caxvalencia/audit-e14/releases/download/v1.0.0/audit-e-14_1.0.0_amd64.deb)            |
 
 > [!NOTE]
 > Puedes encontrar todos los compilados y versiones previas en la sección de [Releases de GitHub](https://github.com/Caxvalencia/audit-e14/releases).
+
+> [!WARNING]
+> **Para usuarios de macOS (Gatekeeper / Quarantine):**
+> Al abrir la aplicación en macOS, es posible que el sistema muestre una alerta indicando que _"la aplicación está dañada y no puede abrirse"_. Esto es un mecanismo de seguridad estándar de macOS debido a que el binario de GitHub Actions se compila sin firma digital de desarrollador Apple (sin firma de pago).
+>
+> Para solucionar esto y abrir la app, ejecuta el siguiente comando en tu terminal (después de arrastrar el icono a tu carpeta de _Aplicaciones_):
+>
+> ```bash
+> xattr -cr "/Applications/Auditoria E14.app"
+> ```
 
 ## Documentacion
 
