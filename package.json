@@ -62,15 +62,10 @@
     "linux": {
       "icon": "build/icon.png",
       "target": [
-        {
-          "target": "AppImage",
-          "artifactName": "Auditoria.E14.AppImage"
-        },
-        {
-          "target": "deb",
-          "artifactName": "audit-e-14_amd64.deb"
-        }
+        "AppImage",
+        "deb"
       ],
+      "artifactName": "Auditoria.E14.${ext}",
       "category": "Utility"
     }
   }
