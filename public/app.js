@@ -307,6 +307,13 @@ async function generateInventory() {
     const payload = await res.json();
     state.records = payload.records;
     state.audits.clear();
+
+    if (payload.audits) {
+      Object.entries(payload.audits).forEach(([key, val]) => {
+        state.audits.set(key, val);
+      });
+    }
+
     state.currentPage = 1;
     renderMetrics(payload.summary);
     renderRows();

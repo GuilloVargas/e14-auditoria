@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { createReadStream, existsSync, statSync } from "node:fs";
+import { createReadStream, existsSync, statSync, readFileSync } from "node:fs";
 import { extname, isAbsolute, join, relative, resolve } from "node:path";
 import { createServer } from "node:http";
 import { URL } from "node:url";
@@ -151,6 +151,52 @@ function isInsideAny(file, directories) {
   });
 }
 
+function loadExistingAudits(out, records) {
+  const auditFile = join(out, "audit.jsonl");
+  const audits = {};
+  if (!existsSync(auditFile)) {
+    return audits;
+  }
+
+  const recordKeys = new Set(
+    records.map((r) =>
+      [
+        r.department,
+        r.municipality,
+        r.zone,
+        r.stand,
+        r.table,
+        r.corporation,
+      ].join("|"),
+    ),
+  );
+
+  try {
+    const content = readFileSync(auditFile, "utf8");
+    const lines = content.split("\n");
+    for (const line of lines) {
+      if (!line.trim()) continue;
+      const row = JSON.parse(line);
+      const key = [
+        row.department,
+        row.municipality,
+        row.zone,
+        row.stand,
+        row.table,
+        row.corporation,
+      ].join("|");
+
+      if (recordKeys.has(key) && row.localPath && existsSync(row.localPath)) {
+        audits[key] = row;
+      }
+    }
+  } catch (error) {
+    console.error("Error reading audit.jsonl:", error);
+  }
+
+  return audits;
+}
+
 async function handleApi(req, res, url, context) {
   if (req.method === "GET" && url.pathname === "/api/config") {
     json(res, 200, {
@@ -177,10 +223,12 @@ async function handleApi(req, res, url, context) {
 
     writeInventory(records, args.out);
     const pageSize = Number(url.searchParams.get("pageSize") || 0);
+    const audits = loadExistingAudits(args.out, records);
 
     json(res, 200, {
       summary: summarize(records),
       records: pageSize > 0 ? records.slice(0, pageSize) : records,
+      audits,
       output: {
         inventoryCsv: join(args.out, "inventory.csv"),
         inventoryJsonl: join(args.out, "inventory.jsonl"),
