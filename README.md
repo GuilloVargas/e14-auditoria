@@ -130,3 +130,4 @@ Por defecto escribe en `output/e14`:
 - `pdf/...`: PDFs descargados.
 
 `output/` esta excluido en `.gitignore`.
+# e14-auditoria
